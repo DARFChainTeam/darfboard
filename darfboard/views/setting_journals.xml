@@ -66,8 +66,10 @@
 			<field name="model">list.of.parameters</field>
 			<field name="arch" type="xml">
 				<form string="Setting for Journals">
-				 <field name="name"/>
-				 <field name="journal_list" widget="many2many_tags"/>
+				<group>
+				 <field name="name" string="Parameter name"/>
+				 <field name="journal_list" widget="many2many_tags" string="Accounting Journals"/> 
+				</group>
 				</form>
 			</field>
 		</record>

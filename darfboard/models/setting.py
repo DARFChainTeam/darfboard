@@ -114,6 +114,12 @@ class SettingOfJournals(models.Model):
             parameter = etree.SubElement(report,'parameter')
             parameter.set("name",item_list.name)
             
+            journals = etree.SubElement(parameter,'journals')
+            
+            for item_journal in item_list.journal_list:
+                journal = etree.SubElement(journals,'journal')
+                journal.set("name",item_journal.name)
+            
         self.xml_for_synchronization = etree.tostring(root, pretty_print=True)
         
         
