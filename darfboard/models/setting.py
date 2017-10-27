@@ -26,6 +26,7 @@ from openerp.exceptions import UserError
 from web3 import Web3, HTTPProvider, IPCProvider
 import ipfsapi
 import io
+from odoo.report.preprocess import report
 
 _logger = logging.getLogger(__name__)
 
@@ -38,6 +39,7 @@ class SettingOfJournals(models.Model):
     list_of_parameters = fields.One2many('list.of.parameters','parameter_id') 
     ethereum_pk = fields.Char(string="Ethereum smart contract address")   
     ethereum_node_address = fields.Char(string="Ethereum node address")
+    ethereum_address = fields.Char(string="Smart Contract Interface")
     gas_limit = fields.Float()
     gas_spent = fields.Float()
     send_period = fields.Selection([
@@ -62,6 +64,60 @@ class SettingOfJournals(models.Model):
     last_send_time = fields.Float(string="Time of last synchronization")
     xml_for_synchronization = fields.Text(string="XML for synchronization")
     
+    def _gas_limit(self):
+        address_node = self.ethereum_node_address
+        web3 = Web3(HTTPProvider(address_node))
+        abi_json = self.ethereum_address
+        ethereum_contract_address = self.ethereum_pk
+        print ethereum_contract_address
+        contract =  web3.eth.contract(abi = json.loads(abi_json), address=ethereum_contract_address)
+        try:
+            result_of_gas_limit = contract.call().getGasLimit()
+        except:
+            result_of_gas_limit = 0
+        self.gas_limit = result_of_gas_limit
+    
+    def _gas_spent(self):
+        date_of_synchronization = dt.now()
+        address_node = self.ethereum_node_address
+        web3 = Web3(HTTPProvider(address_node))
+        abi_json = self.ethereum_address
+        ethereum_contract_address = self.ethereum_pk
+        print ethereum_contract_address
+        contract = web3.eth.contract(abi=json.loads(abi_json), address=ethereum_contract_address)
+        hash_of_synchronaze = '"'+base58.b58encode(str(date_of_synchronization))+'"'
+        print hash_of_synchronaze
+        if self.import_export == 'export':
+            try:
+                result_of_gas_estimate = contract.estimateGas().setData(str(hash_of_synchronaze))
+            except:
+                result_of_gas_estimate = 0
+        if self.import_export == 'import':
+            try:
+                result_of_gas_estimate = contract.estimateGas().HashOfDB()
+            except:
+                result_of_gas_estimate = 0
+        self.gas_spent = result_of_gas_estimate
+    
+    def sand_report(self):
+        print "test sand report"
+        date_of_synchronization = dt.now()
+        general_info_text = str(date_of_synchronization)
+        root = etree.Element("data")
+        general_info = etree.SubElement(root,'general_info')
+        general_info.text=general_info_text
+        #------------------------------------------ create subelement for report
+        report = etree.SubElement(root, 'report')
+        report.set("name",self.name)
+        
+        for item_list in self.list_of_parameters:
+            parameter = etree.SubElement(report,'parameter')
+            parameter.set("name",item_list.name)
+            
+        self.xml_for_synchronization = etree.tostring(root, pretty_print=True)
+        
+        
+        
 class ListOfParameter(models.Model):
     
     _name='list.of.parameters'

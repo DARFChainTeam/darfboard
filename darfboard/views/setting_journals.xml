@@ -11,6 +11,7 @@
 						   
 						    <field name="name" string="Report name" />
 						    <field name="ethereum_pk"  string="Ethereum contract address"/>
+						    <field name="ethereum_address"/>
 						    <field name="ethereum_node_address"  />
 						    <field name="gas_limit"  />
 						    <field name="gas_spent"  />
@@ -21,7 +22,7 @@
 							</tree>
 							</field>
 						</group>
-						<button name="save_report" type="object" string="Save Report"/>
+						<button name="sand_report" type="object" string="Sand Report"/>
 						<notebook colspan="2">
 						<page string="Set date of Synchronization">
 						<group>
