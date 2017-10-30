@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="setting_darfboard_import_view">
+			<field name="name">setting.darfboard.import</field>
+			<field name="model">setting.darfboard.import</field>
+			<field name="arch" type="xml">
+				<form string="Setting for DarfBoard Import">
+					<sheet>
+						<group>
+						   
+						    <field name="name" string="ICO Import" />
+						    <field name="ethereum_pk"  string="Ethereum contract address"/>
+						    <field name="ethereum_address"/>
+						    <field name="ethereum_node_address"  />
+						    <field name="gas_limit"  />
+						    <field name="gas_spent"  />
+						</group>
+						<button name="import_button" type="object" string="Import"/>
+						<notebook colspan="2">
+						<page string="Dict for Import">
+						<field name="import_xml" />
+						</page>
+						</notebook>
+					</sheet>
+					
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="setting_darfboard_import_tree_view">
+			<field name="name">setting.darfboard.import</field>
+			<field name="model">setting.darfboard.import</field>
+			<field name="arch" type="xml">
+				<tree string="Report Setting Import">
+				           <field name="name"/>
+        				   <field name="ethereum_pk"/>
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="setting_ipfs_import_action">
+			<field name="name">Setting Report  DarfBoard Import</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">setting.darfboard.import</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="darfboard_client.setting_darfboard_import_tree_view" />
+		</record>
+		<menuitem name="Setting DarfBoard Import" id="setting_ipfs_import_page_menu"
+			parent="sales_team.menu_sales" action="setting_ipfs_import_action"
+			sequence="20" />
+	</data>
+</odoo>

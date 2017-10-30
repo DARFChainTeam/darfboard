@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="import_data_form_view">
+			<field name="name">data.for.analysis</field>
+			<field name="model">data.for.analysis</field>
+			<field name="arch" type="xml">
+				<form string="Data for Import">
+					<sheet>
+						<group>
+						  <field name="parameter"/>
+						  <field name="journal" />
+						  <field name="entry_number"/>
+						  <field name="entry_item_number" />
+						  <field name="entry_item_debit_code" />
+						  <field name="entry_item_debit_value" />
+						  <field name="entry_item_credit_value" />
+						  <field name="entry_item_quantity" />
+						</group>
+					</sheet>
+					
+				</form>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="import_data_tree_view">
+			<field name="name">data.for.analysis</field>
+			<field name="model">data.for.analysis</field>
+			<field name="arch" type="xml">
+				<tree string="Import Data">
+                  <field name="parameter"/>
+				  <field name="journal" />
+				  <field name="entry_number"/>
+				  <field name="entry_item_number" />
+				  <field name="entry_item_debit_code" />
+				  <field name="entry_item_debit_value" />
+				  <field name="entry_item_credit_value" />
+				  <field name="entry_item_quantity" />
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="import_data_action">
+			<field name="name">Import Data Darfboard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">data.for.analysis</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="darfboard_client.import_data_tree_view" />
+		</record>
+		<menuitem name="Darfboard Import Data" id="import_data_menu"
+			parent="sales_team.menu_sales" action="import_data_action"
+			sequence="20" />
+	</data>
+</odoo>
